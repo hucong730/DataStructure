@@ -67,5 +67,23 @@ class ListTests: XCTestCase {
         print(list)
         print("链表是否为空：\(list.isEmpty)")
     }
+    
+    func testDouble() {
+        let list = DoubleLinkedList<Int>()
+        
+        list.append(1)
+        list.append(2)
+        list.append(4)
+        list.append(7)
+        list.append(9)
+        
+        print(list)
+        
+        list.remove(at: 3)
+        
+        print(list)
+        
+//        print(list[10])
+    }
 
 }

@@ -11,18 +11,17 @@ import Foundation
 
 public class LinkedList<Element>: List {
     
-    /// 链表的头，
     private var head: Node<Element>? = Node<Element>(element: nil)
     
     private var _size = 0
     
-    var size: Int {
+    public var size: Int {
         _size
     }
     
-    subscript(index: Int) -> Element {
+    public subscript(index: Int) -> Element {
         get {
-            return element(at: index)
+            return _node(at: index).element!
         }
         set {
             insert(newValue, at: index)
@@ -30,63 +29,54 @@ public class LinkedList<Element>: List {
     }
     
     
-    func append(_ element: Element) {
+    public func append(_ element: Element) {
         
         insert(element, at: size)
     }
     
-    func insert(_ element: Element, at index: Int) {
-        var tmp = head
-        var i = 0
-        while tmp?.next != nil && i <= index {
-            tmp = tmp?.next
-            i += 1
-        }
-        
-        let node = Node(element: element)
-        node.next = tmp?.next
-        tmp?.next = node
+    public func insert(_ element: Element, at index: Int) {
+        _checkBounds(index)
+
+        let node = _node(at: index)
+        let newNode = Node(element: element)
+        newNode.next = node.next
+        node.next = newNode
         
         _size += 1
     }
     
-    func element(at index: Int) -> Element {
-        var tmp = head
-        var i = 0
-        while i <= index {
-            tmp = tmp?.next
-            i += 1
-        }
+    private func _node(at index: Int) -> Node<Element> {
+        _checkBounds(index)
         
-        return tmp!.element!
+        var tmp = head
+        for _ in 0..<index {
+            tmp = tmp?.next
+        }
+
+        return tmp!
     }
     
     @discardableResult
-    func remove(at index: Int) -> Element {
-        var tmp = head
-        var i = 0
-        while tmp?.next != nil && i < index {
-            tmp = tmp?.next
-            i += 1
-        }
+    public func remove(at index: Int) -> Element {
+        let node = _node(at: index)
         
-        let next = tmp?.next
-        tmp?.next = tmp?.next?.next
+        let next = node.next
+        node.next = node.next?.next
         _size -= 1
         
         return next!.element!
     }
     
-    func clear() {
+    public func clear() {
         head?.next = nil
         _size = 0
     }
     
-    func reverse() {
+    public func reverse() {
         head?.next = _reverse(node: head?.next)
     }
     
-    var hasCycle: Bool {
+    public var hasCycle: Bool {
         
         if head?.next == nil || head?.next?.next == nil {
             return false
@@ -105,6 +95,12 @@ public class LinkedList<Element>: List {
         
         return false
     }
+    
+    private func _checkBounds(_ index: Int) {
+        if index < 0 || index > _size {
+            fatalError("索引越界: \(index) out of bounds[0, \(_size))")
+        }
+    }
 
     @discardableResult
     private func _reverse(node: Node<Element>?) -> Node<Element>? {
@@ -120,16 +116,17 @@ public class LinkedList<Element>: List {
         return result
     }
     
-    class Node<Element>: Equatable {
-        static func == (lhs: Node<Element>, rhs: Node<Element>) -> Bool {
-            Unmanaged.passUnretained(lhs).toOpaque() == Unmanaged.passUnretained(rhs).toOpaque()
-        }
-        
+    private class Node<Element>: Equatable {
+
         var element: Element?
         var next: Node<Element>?
         
         init(element: Element?) {
             self.element = element
+        }
+        
+        static func == (lhs: Node<Element>, rhs: Node<Element>) -> Bool {
+            Unmanaged.passUnretained(lhs).toOpaque() == Unmanaged.passUnretained(rhs).toOpaque()
         }
         
         deinit {

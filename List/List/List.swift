@@ -10,7 +10,7 @@ import Foundation
 
 
 /// 链表
-protocol List {
+public protocol List {
     
     associatedtype E
     
@@ -34,17 +34,11 @@ protocol List {
     /// 移除索引为index处的元素，并返回它
     @discardableResult
     func remove(at index: Int) -> Element
-    
-    /// 链表反转
-    func reverse()
-    
-    /// 判断链表是否有环
-    var hasCycle: Bool { get }
-    
+
     /// 清空链表
     func clear()
 }
 
 extension List {
-    var isEmpty: Bool { size == 0 }
+    public var isEmpty: Bool { size == 0 }
 }
