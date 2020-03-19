@@ -42,50 +42,13 @@ class DoubleLinkedList<Element>: List {
     public func insert(_ element: Element, at index: Int) {
         _checkBounds(index)
 
-        /*
-        let half = _size >> 1
-        var tmp = head
-        var i = 0
-        let node = Node(element: element)
-        if index > half { //从尾部开始遍历
-            tmp = tail
-            i = _size - 1
-            while tmp?.prev != nil && tmp?.prev != head && i >= index {
-                tmp = tmp?.prev
-                i -= 1
-            }
-            
-            let prev = tmp?.prev
-            node.next = tmp
-            node.prev = prev
-            prev?.next = node
-            tmp?.prev = node
-            
-        } else { //从头部开始遍历
-            while tmp?.next != nil && tmp?.next != tail && i <= index {
-                tmp = tmp?.next
-                i += 1
-            }
-            
-            let next = tmp?.next
-            node.next = next
-            node.prev = tmp
-            tmp?.next = node
-            next?.prev = node
-        }*/
-        
         let node = _node(at: index)
         let newNode = Node(element: element)
         newNode.prev = node
         newNode.next = node.next
         node.next?.prev = newNode
         node.next = newNode
-//        node.prev?.next = newNode
-//        newNode.prev = node
-//        newNode.next = node
-//        node.prev = newNode
-        
-        
+
         _size += 1
     }
     
@@ -94,26 +57,15 @@ class DoubleLinkedList<Element>: List {
         
         let half = _size >> 1
         var tmp = head
-        var i = 0
         if index > half { //从尾部开始遍历
             tmp = tail
-//            i = _size - 1
             for _ in stride(from: _size, to: index - 1, by: -1) {
                 tmp = tmp?.prev
             }
-//            while tmp?.prev != nil && tmp?.prev != head && i >= index {
-//                tmp = tmp?.prev
-//                i -= 1
-//            }
-//            tmp = tmp?.prev
         } else { //从头部开始遍历
             for _ in 0..<index {
                 tmp = tmp?.next
             }
-//            while tmp?.next != nil && tmp?.next != tail && i <= index {
-//                tmp = tmp?.next
-//                i += 1
-//            }
         }
         
         return tmp!
