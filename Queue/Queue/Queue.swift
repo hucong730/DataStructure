@@ -1,6 +1,6 @@
 //
-//  Stack.swift
-//  Stack
+//  Queue.swift
+//  Queue
 //
 //  Created by 胡聪 on 2020/3/20.
 //  Copyright © 2020 胡聪. All rights reserved.
@@ -9,56 +9,59 @@
 import Foundation
 
 
-public class Stack<Element> {
-    
+public class Queue<Element> {
     private var _size = 0
     private var _elements = [Element]()
     
     private lazy var _lock = NSLock()
     
-    /// 栈的大小
+    /// 队列的大小
     public var size: Int { _size }
     
-    /// 栈是否为空
+    /// 队列是否为空
     public var isEmpty: Bool { _size == 0 }
     
-    /// 入栈
-    public func push(_ element: Element) {
+    /// 入队
+    public func enQueue(_ element: Element) {
         _lock.lock()
         defer {
             _lock.unlock()
         }
         _elements.append(element)
         _size += 1
+        
     }
 
-    /// 出栈
+    /// 出队
     @discardableResult
-    public func pop() -> Element? {
+    public func deQueue() -> Element? {
+        if _size == 0 {
+            return nil
+        }
         _lock.lock()
         defer {
             _lock.unlock()
         }
         _size -= 1
-        return _elements.popLast()
+        return _elements.removeFirst()
     }
     
-    /// 栈顶
-    public var top: Element? {
-        _elements.last
+    /// 队头
+    public var peek: Element? {
+        _elements.first
     }
 
-    /// 清空栈
+    /// 清空队列
     public func clear() {
         _size = 0
         _elements.removeAll()
     }
 }
 
-extension Stack: CustomStringConvertible {
+extension Queue: CustomStringConvertible {
     public var description: String {
-        var string = _elements.map { "\($0)" }.joined(separator: ", ")
-        string.insert("[", at: string.startIndex)
+        var string = "size = \(size), elements = ["
+        string += _elements.map { "\($0)" }.joined(separator: ", ")
         string.append("]")
         return string
     }

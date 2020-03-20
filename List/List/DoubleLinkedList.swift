@@ -16,6 +16,8 @@ class DoubleLinkedList<Element>: List {
     
     private var _size = 0
     
+    private lazy var _lock = NSLock()
+    
     init() {
         head?.next = tail
         tail?.prev = head
@@ -41,7 +43,10 @@ class DoubleLinkedList<Element>: List {
     
     public func insert(_ element: Element, at index: Int) {
         _checkBounds(index)
-
+        _lock.lock()
+        defer {
+            _lock.unlock()
+        }
         let node = _node(at: index)
         let newNode = Node(element: element)
         newNode.prev = node
@@ -73,6 +78,10 @@ class DoubleLinkedList<Element>: List {
     
     @discardableResult
     public func remove(at index: Int) -> Element {
+        _lock.lock()
+        defer {
+            _lock.unlock()
+        }
         let node = _node(at: index)
         node.prev?.next = node.next
         node.next?.prev = node.prev
@@ -92,7 +101,7 @@ class DoubleLinkedList<Element>: List {
         }
     }
     
-    private class Node<Element>: Equatable {
+    private class Node<Element> {
         
         var element: Element?
         var prev: Node<Element>?
@@ -100,10 +109,6 @@ class DoubleLinkedList<Element>: List {
         
         init(element: Element?) {
             self.element = element
-        }
-        
-        static func == (lhs: Node<Element>, rhs: Node<Element>) -> Bool {
-            Unmanaged.passUnretained(lhs).toOpaque() == Unmanaged.passUnretained(rhs).toOpaque()
         }
         
         deinit {

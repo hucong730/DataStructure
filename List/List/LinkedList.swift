@@ -15,6 +15,8 @@ public class LinkedList<Element>: List {
     
     private var _size = 0
     
+    private lazy var _lock = NSLock()
+    
     public var size: Int {
         _size
     }
@@ -36,7 +38,10 @@ public class LinkedList<Element>: List {
     
     public func insert(_ element: Element, at index: Int) {
         _checkBounds(index)
-
+        _lock.lock()
+        defer {
+            _lock.unlock()
+        }
         let node = _node(at: index)
         let newNode = Node(element: element)
         newNode.next = node.next
@@ -59,7 +64,10 @@ public class LinkedList<Element>: List {
     @discardableResult
     public func remove(at index: Int) -> Element {
         let node = _node(at: index)
-        
+        _lock.lock()
+        defer {
+            _lock.unlock()
+        }
         let next = node.next
         node.next = node.next?.next
         _size -= 1
@@ -73,6 +81,10 @@ public class LinkedList<Element>: List {
     }
     
     public func reverse() {
+        _lock.lock()
+        defer {
+            _lock.unlock()
+        }
         head?.next = _reverse(node: head?.next)
     }
     
