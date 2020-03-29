@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		564204DC242CC14400EC255A /* BSTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564204DB242CC14400EC255A /* BSTree.swift */; };
 		564C5BA424248E3F004F2A8C /* Tree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 564C5B9A24248E3F004F2A8C /* Tree.framework */; };
 		564C5BA924248E3F004F2A8C /* TreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564C5BA824248E3F004F2A8C /* TreeTests.swift */; };
 		564C5BAB24248E3F004F2A8C /* Tree.h in Headers */ = {isa = PBXBuildFile; fileRef = 564C5B9D24248E3F004F2A8C /* Tree.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		564204DB242CC14400EC255A /* BSTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTree.swift; sourceTree = "<group>"; };
 		564C5B9A24248E3F004F2A8C /* Tree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		564C5B9D24248E3F004F2A8C /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
 		564C5B9E24248E3F004F2A8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				564C5B9D24248E3F004F2A8C /* Tree.h */,
 				564C5BB424248E55004F2A8C /* Tree.swift */,
 				564C5BB6242492FD004F2A8C /* BinaryTree.swift */,
+				564204DB242CC14400EC255A /* BSTree.swift */,
 				564C5B9E24248E3F004F2A8C /* Info.plist */,
 			);
 			path = Tree;
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				564C5BB7242492FD004F2A8C /* BinaryTree.swift in Sources */,
+				564204DC242CC14400EC255A /* BSTree.swift in Sources */,
 				564C5BB524248E55004F2A8C /* Tree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

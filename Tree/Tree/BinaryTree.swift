@@ -15,7 +15,7 @@ public class BinaryTree<Element>: Tree {
     
     var root: Node<Element>?
     
-    private var _size = 0
+    var _size = 0
     
     public var size: Int { _size }
     
@@ -77,6 +77,7 @@ public class BinaryTree<Element>: Tree {
         
         return array
     }
+    
     public func postorderTraversal() -> [Element] {
         if root == nil {
             return []
@@ -88,7 +89,7 @@ public class BinaryTree<Element>: Tree {
         var last: Node<Element>?
         while !stack.isEmpty {
             let top = stack.last!
-            if top.isLeaf || top.left == last || top.right == last {
+            if top.isLeaf || (top.left == last || top.right == last) && last != nil {
                 last = stack.removeLast()
                 array.append(last!.element)
             } else {
@@ -101,6 +102,34 @@ public class BinaryTree<Element>: Tree {
             }
         }
         
+        
+        return array
+    }
+    
+    private func postorderTraversal2() -> [Element] {
+        if root == nil {
+            return []
+        }
+        
+        var stack = [Node<Element>]()
+        var output = [Node<Element>]()
+        var node = root
+        while node != nil || !stack.isEmpty {
+            if node != nil {
+                stack.append(node!)
+                output.append(node!)
+                node = node?.right
+            } else {
+                node = stack.removeLast()
+                node = node?.left
+            }
+        }
+        
+        var array = [Element]()
+        while !output.isEmpty {
+            let node = output.removeLast()
+            array.append(node.element)
+        }
         
         return array
     }
@@ -176,13 +205,24 @@ public class BinaryTree<Element>: Tree {
 }
 
 
-class Node<Element>: Equatable {
+class Node<Element>: Equatable, CustomStringConvertible {
     var element: Element
     var left: Node<Element>?
     var right: Node<Element>?
     
-    init(_ element: Element) {
+    var parent: Node<Element>?
+    
+    var is1Degree: Bool {
+        (left == nil && right != nil) || (right == nil && left != nil)
+    }
+    
+    var is2Degree: Bool {
+        left != nil && right != nil
+    }
+    
+    init(_ element: Element, parent: Node<Element>? = nil) {
         self.element = element
+        self.parent = parent
     }
     
     static func == (lhs: Node<Element>, rhs: Node<Element>) -> Bool {
@@ -192,6 +232,10 @@ class Node<Element>: Equatable {
     var isLeaf: Bool {
         left == nil && right == nil
     }
+    
+    var description: String {
+        return "\(element)"
+    }
 }
 
 extension BinaryTree: CustomStringConvertible {
@@ -200,6 +244,7 @@ extension BinaryTree: CustomStringConvertible {
         string.append("前序遍历: \(preorderTraversal())\n")
         string.append("中序遍历: \(inorderTraversal())\n")
         string.append("后序遍历: \(postorderTraversal())\n")
+        string.append("后序遍历2: \(postorderTraversal2())\n")
         string.append("层序遍历: \(levelOrderTraversal())\n")
         return string
     }

@@ -62,4 +62,25 @@ class TreeTests: XCTestCase {
         print(tree)
     }
 
+    func testBSTree() {
+        let tree = BSTree<Int>()
+        
+        tree.add(10)
+        tree.add(7)
+        tree.add(12)
+        tree.add(5)
+        tree.add(4)
+        tree.add(6)
+//        tree.add(8)
+        
+        print(tree)
+        
+        print(tree.predecessor(tree.root))
+        print(tree.successor(tree.root?.right))
+        
+        tree.remove(5)
+        
+        print(tree)
+    }
+    
 }
